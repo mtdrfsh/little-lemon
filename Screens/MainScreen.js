@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TextInput, Pressable, Image, Alert } from 'react-native';
-import { Appbar } from 'react-native-paper';
+import { StyleSheet, Text, View, TextInput, Pressable, Image, Alert, FlatList, TouchableOpacity } from 'react-native';
+import { Appbar, Button } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 
-
+const Categories = ['Starter', 'Mains', 'Desserts', 'Drinks']
 
 export default function Main(){
+    const navigation = useNavigation();
     const [profileImage, setProfileImage] = useState(null)
 
     useEffect(() => {
@@ -28,18 +29,21 @@ export default function Main(){
         <SafeAreaProvider>
             {/* Appbar */}
             <Appbar.Header style={styles.appbar}>
-                <Appbar.BackAction/>
                 <Image source = {require('../assets/Images/Logo.png')} style={styles.logo} resizeMode="contain"/>
-                <View style={styles.profileImageContainer}>
+                <TouchableOpacity onPress={() => navigation.navigate('profile')}>
+
+                        <View style={styles.profileImageContainer}>
+                    
+                            {profileImage ? (
+                                <Image source={{ uri: profileImage }} style={styles.profileImage} />
+                            ) : (
+                                <View style={styles.initialsPlaceholder}>
+                                <Text style={styles.initialsText}>{'U'}</Text>
+                                </View>
+                            )}
+                    </View>
+                </TouchableOpacity>
                 
-                          {profileImage ? (
-                            <Image source={{ uri: profileImage }} style={styles.profileImage} />
-                          ) : (
-                            <View style={styles.initialsPlaceholder}>
-                              <Text style={styles.initialsText}>{'U'}</Text>
-                            </View>
-                          )}
-                </View>
             </Appbar.Header>
 
             {/* Hero Section */}
@@ -56,9 +60,19 @@ export default function Main(){
 
             {/* Menu Breakdown */}
             <View>
-                <Text>ORDER FOR DELIVERY!</Text>
+                <Text style = {styles.title}>ORDER FOR DELIVERY!</Text>
                 {/* Categories */}
                 {/* ////////////HERE//////////// */}
+                <View style = {styles.heroRow}>
+                    {Object.values(Categories).map((key) => (
+                    <Button key = {key} style = {styles.button}
+                    onPress={null}
+                    >
+                        <Text style = {styles.buttonText}>{key}</Text>
+                    </Button>
+                ))}
+                </View>
+                
             </View>
 
             {/* Menu items */}
@@ -85,7 +99,11 @@ const styles = StyleSheet.create({
     heroText: { fontSize: 14, marginVertical: 1, color: '#FFFFFF', flexWrap: 'wrap', maxWidth: 180, },
     heroImg: { width: 180, height: 180, borderRadius: 10 },
     input: { backgroundColor: 'white', borderRadius: 8, padding: 10, marginVertical: 10, borderWidth: 1 },
+
+    // Menu Breakdown
+    title: { fontSize: 20, fontWeight: 'bold' , color: 'black', padding: 10 },
+    button: { backgroundColor: '##EDEFEE', padding: 4, borderRadius: 20, margin: 10 },
     buttonRow: { flexDirection: 'row', justifyContent: 'space-around' },
-    buttonText: { color: 'white', textAlign: 'center' },
+    buttonText: { color: '#495E57', textAlign: 'center' },
   });
   

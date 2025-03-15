@@ -99,7 +99,10 @@ export default function Profile() {
   return (
     <SafeAreaProvider>
       <Appbar.Header style={styles.appbar}>
+        <Appbar.BackAction onPress={() => navigation.navigate('main')}/>
+        <Appbar.Content title="" />
         <Image source={require('../assets/Images/Logo.png')} style={styles.logo} resizeMode="contain"/>
+        <Appbar.Content title="" />
       </Appbar.Header>
 
       <View style={styles.container}>
@@ -156,7 +159,7 @@ export default function Profile() {
 }
 
 const styles = StyleSheet.create({
-  appbar: { backgroundColor: '#FFFFFF', justifyContent: 'center' },
+  appbar: { backgroundColor: '#FFFFFF', justifyContent: 'space-between' },
   logo: { width: 200, height: 50 },
   container: { flex: 1, padding: 20, backgroundColor: '#FFFFFF' },
   header: { fontSize: 18, fontWeight: 'bold', marginVertical: 10 },

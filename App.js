@@ -40,13 +40,13 @@ export default function App() {
         {isLoggedIn ? (
           <>
           <Stack.Screen name='main' component={Main} options={{ headerShown: false }} />
-          <Stack.Screen name='profile' component={Profile} options={{ headerShown: false }} />
+          
           </>
         ) : 
         <Stack.Screen name = 'welcome' component = {Onboarding} options = {{headerShown: false}} />
         }
         
-        
+        <Stack.Screen name='profile' component={Profile} options={{ headerShown: false }} />
         
       </Stack.Navigator>
     </NavigationContainer>
