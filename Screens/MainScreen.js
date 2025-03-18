@@ -28,8 +28,8 @@ export default function Main(){
     }
 
     const fetchMenu = async () => {
-        const baseImageUrl = 'https://github.com/mtdrfsh/little-lemon/tree/master/assets/Images/'
-        const response = await fetch('https://raw.githubusercontent.com/Meta-Mobile-Developer-PC/Working-With-Data-API/main/capstone.json')
+        const baseImageUrl = 'https://raw.githubusercontent.com/mtdrfsh/little-lemon/master/assets/Images/'
+        const response = await fetch('https://raw.githubusercontent.com/mtdrfsh/little-lemon/refs/heads/master/menu.json')
         const responseJson = await response.json()
         const updatedMenu = responseJson.menu.map(item => ({
             ...item,
@@ -103,7 +103,7 @@ export default function Main(){
                         </View>
                         <Image 
                         style = {styles.cardImg}
-                        source = {item.image}
+                        source = {{uri: item.image}}
                         />
                     </View>
                 )}
@@ -123,6 +123,7 @@ const styles = StyleSheet.create({
     profileImage: { width: 50, height: 50, borderRadius: 40 },
     initialsPlaceholder: { width: 80, height: 80, borderRadius: 40, backgroundColor: '#ccc', justifyContent: 'center', alignItems: 'center' },
     initialsText: { fontSize: 30, fontWeight: 'bold', color: '#fff' },
+    
     // Hero Section
     heroContainer: { padding: 20, backgroundColor: '#495E57' },
     heroHeader: { fontSize: 40, fontWeight: 'bold', color: '#F4CE14' },
