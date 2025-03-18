@@ -85,6 +85,10 @@ export default function Profile() {
     }
   };
 
+  const discardChange = () => {
+    navigation.goBack()
+  }
+
   // Logout and Clear AsyncStorage
   const logout = async () => {
     await AsyncStorage.clear();
@@ -149,7 +153,7 @@ export default function Profile() {
         </Pressable>
 
         <View style={styles.buttonRow}>
-          <Pressable style={styles.discardButton}>
+          <Pressable style={styles.discardButton} onPress={discardChange}>
             <Text style={styles.buttonText}>Discard Changes</Text>
           </Pressable>
           <Pressable style={styles.saveButton} onPress={saveProfile}>

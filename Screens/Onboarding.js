@@ -33,7 +33,7 @@ export default function Onboarding({navigation}) {
         
         <SafeAreaProvider>
             {/* Appbar */}
-            <Appbar.Header style = {styles.Appbar} mode = 'center-aligned'>
+            <Appbar.Header style = {styles.appbar} mode = 'center-aligned'>
             <Image 
                 source={require('../assets/Images/Logo.png')} 
                 style={{ width: 250, height: 200 }} 
@@ -44,6 +44,15 @@ export default function Onboarding({navigation}) {
 
             {/* Body */}
             <View style = {styles.container}>
+              {/* Hero Section */}
+                    <View style = {styles.heroContainer}>
+                      <Text style = {styles.heroHeader}>Little Lemon</Text>
+                      <Text style = {styles.heroSubHeader}>Chicago</Text>
+                        <View style = {styles.heroRow}>
+                          <Text style = {styles.heroText}>We are a family owned Mediterranean restaurant, focused on traditional recipes served with a modern twist.</Text>
+                          <Image source = {require('../assets/Images/Hero image.png')} style = {styles.heroImg}></Image>
+                        </View>
+                  </View>
                 <Text style = {styles.header}>Let us get to know you</Text>
 
                 <>
@@ -79,14 +88,22 @@ export default function Onboarding({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#CBD2D9',
+    backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  Appbar: {
-    backgroundColor: '#EDEFEE',
-    justifyContent: 'center'
-  },
+  // AppBar
+  appbar: { backgroundColor: '#FFFFFF', justifyContent: 'center' },
+  logo: { width: 200, height: 50 },
+
+  // Hero Section
+  heroContainer: { padding: 20, backgroundColor: '#495E57' },
+  heroHeader: { fontSize: 40, fontWeight: 'bold', color: '#F4CE14' },
+  heroSubHeader: { fontSize: 20, fontWeight: 'bold', marginVertical: 10, color: '#FFFFFF' },
+  heroRow: {flexDirection: 'row', justifyContent: 'space-between', gap: 4},
+  heroText: { fontSize: 14, marginVertical: 1, color: '#FFFFFF', flexWrap: 'wrap', maxWidth: 180, },
+  heroImg: { width: 180, height: 180, borderRadius: 10 },
+  
   Textinput: {
     width: 286,
     height: 50,
@@ -108,7 +125,7 @@ const styles = StyleSheet.create({
     color: '#334753',
   },
   pressable: {
-    backgroundColor: 'white',
+    backgroundColor: '#F4CE14',
     height: 40,
     width: 120,
     marginVertical: 40,
