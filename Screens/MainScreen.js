@@ -7,13 +7,15 @@ import { useNavigation } from '@react-navigation/native';
 import { useSQLiteContext } from 'expo-sqlite';
 import { initializeDatabase, saveDatatoDatabase } from '../database';
 
-const Categories = ['Starter', 'Mains', 'Desserts', 'Drinks']
+const Categories = ['starters', 'mains', 'desserts', 'drinks']
 
 export default function Main(){
     const db = useSQLiteContext();  
     const navigation = useNavigation();
     const [profileImage, setProfileImage] = useState(null)
     const [menu, setMenu] = useState([])
+    const [searchQuery, setSearchQuery] = useState(''); 
+    const [selectedCategory, setSelectedCategory] = useState([]);
 
     useEffect(() => {
         loadProfileImage()
@@ -39,12 +41,13 @@ export default function Main(){
                 setMenu(existingMenu);
             } else {
                 console.log('Fetching menu from API...');
-                fetchMenuFromAPI();
+                fetchMenu();
             }
         } catch (error) {
             console.error('Error loading menu data:', error);
         }
     }
+
     const fetchMenu = async () => {
         try {
             const baseImageUrl = 'https://raw.githubusercontent.com/mtdrfsh/little-lemon/master/assets/Images/'
@@ -64,6 +67,22 @@ export default function Main(){
         }
         
     }
+
+    const filteredSections = () => {
+        return menu
+            .filter(item => 
+                selectedCategory.length === 0 || selectedCategory.includes(item.category) // Filter by selected category
+            )
+            .filter(item => 
+                item.name.toLowerCase().includes(searchQuery.toLowerCase()) // Filter by search query
+            );
+    };
+    
+    const categoryFilter = (category) => {
+        setSelectedCategory(prev =>
+            prev.includes(category) ? [] : [category] // Single category selection
+        );
+    };
 
     return (
         <SafeAreaProvider>
@@ -95,30 +114,41 @@ export default function Main(){
                     <Image source = {require('../assets/Images/Hero image.png')} style = {styles.heroImg}></Image>
                 </View>
                 {/* SearchBar */}
-                <TextInput style = {styles.input}></TextInput>
+                <TextInput 
+                style = {styles.input}
+                placeholder = 'Search'
+                placeholderTextColor = "black"
+                value = {searchQuery}
+                onChangeText = {setSearchQuery}>
+                </TextInput>
             </View>
 
             {/* Menu Breakdown */}
             <View>
                 <Text style = {styles.title}>ORDER FOR DELIVERY!</Text>
                 {/* Categories */}
-                {/* ////////////HERE//////////// */}
-                <View style = {styles.heroRow}>
-                    {Object.values(Categories).map((key) => (
-                    <Button key = {key} style = {styles.button}
-                    onPress={fetchMenu}
-                    >
-                        <Text style = {styles.buttonText}>{key}</Text>
-                    </Button>
-                ))}
+                <View style={styles.heroRow}>
+                    {Categories.map((category) => {
+                        const isActive = selectedCategory.includes(category);
+                        return (
+                            <TouchableOpacity
+                                key={category}
+                                style={[styles.button, isActive && styles.buttonActive]}
+                                onPress={() => categoryFilter(category)}
+                            >
+                                <Text style={[styles.buttonText, isActive && styles.buttonTextActive]}>
+                                    {category}
+                                </Text>
+                            </TouchableOpacity>
+                        );
+                    })}
                 </View>
                 
             </View>
 
             {/* Menu items */}
-            
                 <FlatList
-                data = {menu}
+                data = {filteredSections()}
                 keyExtractor = {(item,index) => index.toString()}
                 renderItem = {({item}) => (
                     <View style = {styles.card}>
@@ -161,9 +191,11 @@ const styles = StyleSheet.create({
 
     // Menu Breakdown
     title: { fontSize: 20, fontWeight: 'bold' , color: 'black', padding: 10 },
-    button: { backgroundColor: '#black', padding: 4, borderRadius: 20, margin: 10 },
+    button: { paddingVertical: 10, paddingHorizontal: 15, borderRadius: 20, margin: 5, borderWidth: 2, borderColor: '#495E57', backgroundColor: 'white', },
     buttonRow: { flexDirection: 'row', justifyContent: 'space-around' },
-    buttonText: { fontSize: 12 , color: '#495E57', textAlign: 'center' },
+    buttonText: { fontSize: 14, color: '#495E57', fontWeight: 'bold', textTransform: 'capitalize' },
+    buttonTextActive: { color: 'white' },
+    buttonActive: { backgroundColor: '#495E57', activeborderColor: '#F4CE14' },
 
     // Menu items
     card: { flexDirection: 'row', backgroundColor: 'white', padding: 10, borderRadius: 10, justifyContent: 'space-between', alignItems: 'center' },
