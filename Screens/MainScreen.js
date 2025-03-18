@@ -10,9 +10,11 @@ const Categories = ['Starter', 'Mains', 'Desserts', 'Drinks']
 export default function Main(){
     const navigation = useNavigation();
     const [profileImage, setProfileImage] = useState(null)
+    const [menu, setMenu] = useState([])
 
     useEffect(() => {
         loadProfileImage()
+        fetchMenu()
     }, [])
 
     const loadProfileImage = async () => {
@@ -23,6 +25,18 @@ export default function Main(){
         } catch (error) {
             console.log('Error loading profile image:', error)
         }
+    }
+
+    const fetchMenu = async () => {
+        const baseImageUrl = 'https://github.com/mtdrfsh/little-lemon/tree/master/assets/Images/'
+        const response = await fetch('https://raw.githubusercontent.com/Meta-Mobile-Developer-PC/Working-With-Data-API/main/capstone.json')
+        const responseJson = await response.json()
+        const updatedMenu = responseJson.menu.map(item => ({
+            ...item,
+            image: baseImageUrl + item.image + '?raw=true'
+        }))
+        setMenu(updatedMenu)
+        console.log(updatedMenu[4])
     }
 
     return (
@@ -66,7 +80,7 @@ export default function Main(){
                 <View style = {styles.heroRow}>
                     {Object.values(Categories).map((key) => (
                     <Button key = {key} style = {styles.button}
-                    onPress={null}
+                    onPress={fetchMenu}
                     >
                         <Text style = {styles.buttonText}>{key}</Text>
                     </Button>
@@ -76,9 +90,27 @@ export default function Main(){
             </View>
 
             {/* Menu items */}
-            <View>
-
-            </View>
+            
+                <FlatList
+                data = {menu}
+                keyExtractor = {(item,index) => index.toString()}
+                renderItem = {({item}) => (
+                    <View style = {styles.card}>
+                        <View style = {styles.infoCard}>
+                        <Text style = {styles.nameStyle}>{item.name}</Text>
+                        <Text style = {styles.descriptionStyle}>{item.description}</Text>
+                        <Text style = {styles.priceStyle}>${item.price}</Text>
+                        </View>
+                        <Image 
+                        style = {styles.cardImg}
+                        source = {item.image}
+                        />
+                    </View>
+                )}
+                >
+                    
+                </FlatList>
+    
         </SafeAreaProvider>
     )
 }
@@ -102,8 +134,16 @@ const styles = StyleSheet.create({
 
     // Menu Breakdown
     title: { fontSize: 20, fontWeight: 'bold' , color: 'black', padding: 10 },
-    button: { backgroundColor: '##EDEFEE', padding: 4, borderRadius: 20, margin: 10 },
+    button: { backgroundColor: '#black', padding: 4, borderRadius: 20, margin: 10 },
     buttonRow: { flexDirection: 'row', justifyContent: 'space-around' },
-    buttonText: { color: '#495E57', textAlign: 'center' },
+    buttonText: { fontSize: 12 , color: '#495E57', textAlign: 'center' },
+
+    // Menu items
+    card: { flexDirection: 'row', backgroundColor: 'white', padding: 10, borderRadius: 10, justifyContent: 'space-between', alignItems: 'center' },
+    infoCard: { flex: 1, flexDirection: 'column', backgroundColor: 'white', padding: 10, borderRadius: 10, maxWidth: 190, },
+    nameStyle: { fontSize: 18, fontWeight: 'bold', color: 'black' },
+    descriptionStyle: { fontSize: 14, fontWeight: 'regular', color: 'black' },
+    priceStyle: { fontSize: 15, fontWeight: 'bold', color: 'black' },
+    cardImg: { width: 120, height: 120, borderRadius: 10 },
   });
   
