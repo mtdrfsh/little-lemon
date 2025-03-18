@@ -88,7 +88,10 @@ export default function Profile() {
   // Logout and Clear AsyncStorage
   const logout = async () => {
     await AsyncStorage.clear();
-    navigation.replace('welcome'); 
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'welcome' }],
+  });
   };
 
   // Render user initials if no image is set
