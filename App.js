@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { SQLiteProvider } from 'expo-sqlite';
+import { initializeDatabase } from './database';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Onboarding from './Screens/Onboarding';
 import Main from './Screens/MainScreen';
 import Profile from './Screens/ProfileScreen';
+
 
 
 
@@ -35,12 +38,12 @@ export default function App() {
   
 
   return (
+    <SQLiteProvider databaseName="little_lemon">
     <NavigationContainer>
       <Stack.Navigator>
         {isLoggedIn ? (
           <>
-          <Stack.Screen name='main' component={Main} options={{ headerShown: false }} />
-          
+            <Stack.Screen name='main' component={Main} options={{ headerShown: false }} />
           </>
         ) : 
         <Stack.Screen name = 'welcome' component = {Onboarding} options = {{headerShown: false}} />
@@ -50,5 +53,6 @@ export default function App() {
         
       </Stack.Navigator>
     </NavigationContainer>
+    </SQLiteProvider>
   );
 }

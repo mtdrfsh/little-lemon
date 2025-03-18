@@ -4,17 +4,20 @@ import { Appbar, Button } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
+import { useSQLiteContext } from 'expo-sqlite';
+import { initializeDatabase, saveDatatoDatabase } from '../database';
 
 const Categories = ['Starter', 'Mains', 'Desserts', 'Drinks']
 
 export default function Main(){
+    const db = useSQLiteContext();  
     const navigation = useNavigation();
     const [profileImage, setProfileImage] = useState(null)
     const [menu, setMenu] = useState([])
 
     useEffect(() => {
         loadProfileImage()
-        fetchMenu()
+        loadMenuData()
     }, [])
 
     const loadProfileImage = async () => {
@@ -27,16 +30,39 @@ export default function Main(){
         }
     }
 
+    const loadMenuData = async () => {
+        try {
+            await initializeDatabase(db);
+            const existingMenu = await db.getAllAsync('SELECT * FROM menu;');
+            if (existingMenu.length > 0) {
+                console.log('Loaded menu from SQLite');
+                setMenu(existingMenu);
+            } else {
+                console.log('Fetching menu from API...');
+                fetchMenuFromAPI();
+            }
+        } catch (error) {
+            console.error('Error loading menu data:', error);
+        }
+    }
     const fetchMenu = async () => {
-        const baseImageUrl = 'https://raw.githubusercontent.com/mtdrfsh/little-lemon/master/assets/Images/'
-        const response = await fetch('https://raw.githubusercontent.com/mtdrfsh/little-lemon/refs/heads/master/menu.json')
-        const responseJson = await response.json()
-        const updatedMenu = responseJson.menu.map(item => ({
-            ...item,
-            image: baseImageUrl + item.image + '?raw=true'
-        }))
-        setMenu(updatedMenu)
-        console.log(updatedMenu[4])
+        try {
+            const baseImageUrl = 'https://raw.githubusercontent.com/mtdrfsh/little-lemon/master/assets/Images/'
+            const response = await fetch('https://raw.githubusercontent.com/mtdrfsh/little-lemon/refs/heads/master/menu.json')
+            const responseJson = await response.json()
+            const updatedMenu = responseJson.menu.map(item => ({
+                ...item,
+                image: baseImageUrl + item.image + '?raw=true'
+            }))
+            await saveDatatoDatabase(db, updatedMenu)
+            setMenu(updatedMenu)
+
+            // console.log(updatedMenu[4])
+
+        } catch (error) {
+            console.error('Database error:', error);
+        }
+        
     }
 
     return (
@@ -123,7 +149,7 @@ const styles = StyleSheet.create({
     profileImage: { width: 50, height: 50, borderRadius: 40 },
     initialsPlaceholder: { width: 80, height: 80, borderRadius: 40, backgroundColor: '#ccc', justifyContent: 'center', alignItems: 'center' },
     initialsText: { fontSize: 30, fontWeight: 'bold', color: '#fff' },
-    
+
     // Hero Section
     heroContainer: { padding: 20, backgroundColor: '#495E57' },
     heroHeader: { fontSize: 40, fontWeight: 'bold', color: '#F4CE14' },
