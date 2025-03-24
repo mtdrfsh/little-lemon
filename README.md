@@ -2,7 +2,7 @@
 This project is a mobile app for Little Lemon, a fictional Mediterranean restaurant. It is designed to display the restaurant's menu, and users can access the restaurant's menu by creating a profile.
 
 ## Overview
-This website is built using React, providing a dynamic and interactive user experience. It offers a clean and user-friendly interface for customers to explore the menu, learn about Little Lemon, and make reservations. This project was developed as part of a learning exercise, demonstrating proficiency in React development.
+This React Native application, providing a dynamic and interactive user experience. It offers a clean and user-friendly interface for customers to explore the menu, learn about Little Lemon, and manage their profiles. This project was developed as part of a learning exercise, demonstrating proficiency in React development.
 
 ## Features
 * **Menu Display:** Browse the restaurant's menu with detailed descriptions and prices.
@@ -11,17 +11,16 @@ This website is built using React, providing a dynamic and interactive user expe
 * **React Components:** Modular and reusable components for efficient development.
 
 ## Technologies
-* **React:** JavaScript library for building user interfaces.
-* **React Router:** Enables navigation between pages.
-* **Fetch API:** For fetching data.
-* **Database:** SQLite database for menu storage.
-* 
+* **React Native:** Framework for building mobile applications.
+* **React Navigation:** Enables smooth screen transitions.
+* **Fetch API:** Used for data retrieval.
+* **SQLite:** Local database for storing menu and user data.
+* **AsyncStorage (if used):** For lightweight data persistence.
+
 ## Screenshots
 
-
-* **Login Page:**
-    ![Home Page](Screenshots/LoginPage.jpg)
-* **Menu Page:**
-    ![Menu Page](Screenshots/MainPage.jpg)
-* **Profile Page:**
-    ![Reservations Page](Screenshots/ProfilePage.jpg)
+<div style="display: flex; justify-content: center; gap: 10px;">
+  <img src="Screenshots/LoginPage.jpg" width="300">
+  <img src="Screenshots/MainPage.jpg" width="300">
+  <img src="Screenshots/ProfilePage.jpg" width="300">
+</div>
