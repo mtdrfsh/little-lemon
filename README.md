@@ -6,21 +6,31 @@ This React Native application, providing a dynamic and interactive user experien
 
 ## Features
 * **Menu Display:** Browse the restaurant's menu with detailed descriptions and prices.
-* **About Us:** Learn about Little Lemon's history and philosophy.
-* **Responsive Design:** Ensures optimal viewing experience across various devices.
-* **React Components:** Modular and reusable components for efficient development.
+* **Profile Management:** Users can create and edit their profiles to save preferences.
+* **Data Persistence:** User data and menu items are stored using SQLite.
+* **Navigation:** Smooth navigation between screens using React Navigation.
+* **Responsive Design:** Optimized for various mobile devices.
 
 ## Technologies
 * **React Native:** Framework for building mobile applications.
 * **React Navigation:** Enables smooth screen transitions.
 * **Fetch API:** Used for data retrieval.
 * **SQLite:** Local database for storing menu and user data.
-* **AsyncStorage (if used):** For lightweight data persistence.
+* **AsyncStorage:** For lightweight data persistence.
 
 ## Screenshots
 
 <div style="display: flex; justify-content: center; gap: 10px;">
-  <img src="Screenshots/LoginPage.jpg" width="300">
-  <img src="Screenshots/MainPage.jpg" width="300">
-  <img src="Screenshots/ProfilePage.jpg" width="300">
+  <div>
+    <img src="Screenshots/LoginPage.jpg" width="200" style="border: 2px solid black;">
+    <p style="text-align: center;">Login Screen</p>
+  </div>
+  <div>
+    <img src="Screenshots/MainPage.jpg" width="200" style="border: 2px solid black;">
+    <p style="text-align: center;">Main Screen</p>
+  </div>
+  <div>
+    <img src="Screenshots/ProfilePage.jpg" width="200" style="border: 2px solid black;">
+    <p style="text-align: center;">Profile Screen</p>
+  </div>
 </div>
