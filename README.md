@@ -20,17 +20,18 @@ This React Native application, providing a dynamic and interactive user experien
 
 ## Screenshots
 
-<div style="display: flex; justify-content: center; gap: 10px;">
-  <div>
-    <img src="Screenshots/LoginPage.jpg" width="200" style="border: 2px solid black;">
-    <p style="text-align: center;">Login Screen</p>
-  </div>
-  <div>
-    <img src="Screenshots/MainPage.jpg" width="200" style="border: 2px solid black;">
-    <p style="text-align: center;">Main Screen</p>
-  </div>
-  <div>
-    <img src="Screenshots/ProfilePage.jpg" width="200" style="border: 2px solid black;">
-    <p style="text-align: center;">Profile Screen</p>
-  </div>
-</div>
+<table>
+  <tbody>
+    <tr>
+      <td>
+        <img alt="Login Screen" width="160" src="Screenshots/LoginPage.jpg">
+      </td>
+      <td>
+        <img alt="Main Screen" width="160" src="Screenshots/MainPage.jpg">
+      </td>
+      <td>
+        <img alt="Profile Screen" width="160" src="Screenshots/ProfilePage.jpg">
+      </td>
+    </tr>
+  </tbody>
+</table>
